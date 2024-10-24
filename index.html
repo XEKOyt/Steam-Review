@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steam Review Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Main Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #1e1e2f;
+            color: #ffffff;
+            padding: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+        }
+        h1 {
+            color: #50fa7b;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #50fa7b;
+            animation: fadeIn 1s ease-in-out;
+        }
+        form {
+            background-color: #282a36;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+        form:hover {
+            transform: scale(1.02);
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #50fa7b;
+        }
+        .rating-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .rating-buttons button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #44475a;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #ffffff;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .rating-buttons button.active {
+            background-color: #50fa7b;
+            transform: scale(1.1);
+            color: #000000;
+        }
+        .rating-buttons button:hover {
+            background-color: #6272a4;
+            transform: scale(1.05);
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #6272a4;
+            background-color: #44475a;
+            color: #ffffff;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        textarea:focus {
+            border-color: #50fa7b;
+            outline: none;
+        }
+        button[type="submit"] {
+            background-color: #50fa7b;
+            color: black;
+            border: none;
+            padding: 10px 15px;
+            font-size: 18px;
+            border-radius: 5px;
+            margin-top: 20px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button[type="submit"]:hover {
+            background-color: #45c469;
+            transform: scale(1.05);
+        }
+        .output {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #282a36;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            color: #ffffff;
+            border: 1px solid #44475a;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            transition: opacity 0.3s;
+        }
+        #overallRating {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #50fa7b;
+            text-align: center;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .rating-buttons {
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+            .rating-buttons button {
+                flex: 1 1 30%;
+            }
+            button[type="submit"] {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Steam Review Generator</h1>
+    <form id="reviewForm">
+        <label for="graphics">Graphics:</label>
+        <div class="rating-buttons" id="graphicsButtons"></div>
+        <label for="graphicsWhy">Why? (Optional):</label>
+        <textarea id="graphicsWhy" name="graphicsWhy" placeholder=""></textarea>
+
+        <label for="Soundtrack">Soundtrack:</label>
+        <div class="rating-buttons" id="SoundtrackButtons"></div>
+        <label for="SoundtrackWhy">Why? (Optional):</label>
+        <textarea id="SoundtrackWhy" name="SoundtrackWhy" placeholder=""></textarea>
+
+        <label for="gameplay">Gameplay:</label>
+        <div class="rating-buttons" id="gameplayButtons"></div>
+        <label for="gameplayWhy">Why? (Optional):</label>
+        <textarea id="gameplayWhy" name="gameplayWhy" placeholder=""></textarea>
+
+        <label for="lore">Lore:</label>
+        <div class="rating-buttons" id="loreButtons"></div>
+        <label for="loreWhy">Why? (Optional):</label>
+        <textarea id="loreWhy" name="loreWhy" placeholder=""></textarea>
+
+        <label for="characters">Character Design:</label>
+        <div class="rating-buttons" id="charactersButtons"></div>
+        <label for="charactersWhy">Why? (Optional):</label>
+        <textarea id="charactersWhy" name="charactersWhy" placeholder=""></textarea>
+
+        <label for="difficulty">Difficulty:</label>
+        <div class="rating-buttons" id="difficultyButtons"></div>
+        <label for="difficultyWhy">Why? (Optional):</label>
+        <textarea id="difficultyWhy" name="difficultyWhy" placeholder=""></textarea>
+
+        <label for="immersion">Immersion:</label>
+        <div class="rating-buttons" id="immersionButtons"></div>
+        <label for="immersionWhy">Why? (Optional):</label>
+        <textarea id="immersionWhy" name="immersionWhy" placeholder=""></textarea>
+
+        <div id="overallRating">Overall: 0/10</div>
+
+        <label for="note">Additional Notes:</label>
+        <textarea id="note" name="note" placeholder=""></textarea>
+
+        <button type="submit">Generate Review</button>
+    </form>
+
+    <div class="output" id="generatedReview"></div>
+
+    <script>
+        const categories = ['graphics', 'Soundtrack', 'gameplay', 'lore', 'characters', 'difficulty', 'immersion'];
+
+        categories.forEach(category => {
+            const container = document.getElementById(`${category}Buttons`);
+            for (let i = 1; i <= 10; i++) {
+                const button = document.createElement('button');
+                button.textContent = i;
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    document.querySelectorAll(`#${category}Buttons button`).forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    button.setAttribute('data-rating', i);
+                    calculateOverall();
+                });
+                container.appendChild(button);
+            }
+        });
+
+        function calculateOverall() {
+            let totalRating = 0;
+            let count = 0;
+            categories.forEach(category => {
+                const activeButton = document.querySelector(`#${category}Buttons button.active`);
+                if (activeButton) {
+                    totalRating += parseInt(activeButton.textContent);
+                    count++;
+                }
+            });
+            const overallRating = count ? (totalRating / count).toFixed(1) : 0;
+            document.getElementById('overallRating').textContent = `Overall: ${overallRating}/10`;
+        }
+
+        document.getElementById('reviewForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let review = '';
+            categories.forEach(category => {
+                const rating = document.querySelector(`#${category}Buttons button.active`);
+                const why = document.getElementById(`${category}Why`).value;
+                if (rating) {
+                    review += `${category.charAt(0).toUpperCase() + category.slice(1)}: ${rating.textContent}/10\n`;
+                    if (why) review += `Why: ${why}\n`;
+                }
+            });
+            const note = document.getElementById('note').value;
+            if (note) review += `Additional Notes: ${note}\n`;
+
+            const overallRating = document.getElementById('overallRating').textContent;
+            review += `\n${overallRating}`;
+            document.getElementById('generatedReview').textContent = review;
+        });
+    </script>
+</body>
+</html>
